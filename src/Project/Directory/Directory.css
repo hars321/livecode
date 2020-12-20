@@ -1,0 +1,10 @@
+.Directory-Parent{
+    color:#b9bbbe;
+    font-family: 'Josefin Sans', sans-serif;
+}
+.Directory{
+    padding:1rem;
+}
+.Directory *{
+    margin: 0px;
+}

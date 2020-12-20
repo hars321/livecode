@@ -23,8 +23,8 @@ class App extends React.Component {
     };
     return (
       <MonacoEditor
-        width="800"
-        height="600"
+        width="80vw"
+        height="100vh"
         language="javascript"
         theme="vs-dark"
         value={code}

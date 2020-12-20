@@ -1,23 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
 
+import Monaco from './Monaco/index.js';
+import ProjectBar from './Project/ProjectBar';
+import './App.css';
+// import Directory from './Project/Directory/Directory.js';
+import DirectoryBar from './Project/Directory/DirectoryBar.js';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ProjectBar/>
+      <DirectoryBar/>
+      <Monaco/>
     </div>
   );
 }
