@@ -1,0 +1,24 @@
+.Editor{
+    display: flex;
+    align-items: flex-end;
+}
+.Editor-Parent{
+    
+}
+.btn{
+    width: 50%;
+    height: 10vh;
+    
+    background-color: #4a4d50;
+
+    color:#b9bbbe;
+
+    border: none;
+
+    font-family: 'Josefin Sans', sans-serif;
+
+    outline:none;
+}
+.active{
+    background-color: rgb(30,30,30);
+}
