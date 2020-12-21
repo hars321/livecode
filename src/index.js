@@ -1,14 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import ReactDOM from 'react-dom';
+import { Router, Route} from 'react-router';
+import { BrowserRouter,Redirect } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-
+    <BrowserRouter>
+      <Route exact path='/' component={App}></Route>      
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
