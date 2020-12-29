@@ -10,6 +10,7 @@ const socket = socketIOClient(ENDPOINT);
 
 
 var compilerCode=""
+var room="room1"
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -29,6 +30,7 @@ class App extends React.Component {
 
   sendCode=()=>{
     let data={
+      "room":"room1",
       "code":this.getData()
     }
     // let data=code
@@ -43,19 +45,7 @@ class App extends React.Component {
   }
 
 
-  //gets coordinates of the current user cursor
-  //sends the cursor coordinates to socket.io server
- sendCoords=(event)=>{
-
-    let data={
-      "user_name":"user1",
-      "x":event.clientX,
-      "y":event.clientY
-    }
-    socket.emit("coordinates", data);
-    
-  }
-  
+ 
  
 //returns the code written in compiler in JSON string format
   getData(){
@@ -82,17 +72,35 @@ class App extends React.Component {
     
   }
 
+ //gets coordinates of the current user cursor
+  //sends the cursor coordinates to socket.io server
+  sendCoords=(event)=>{
 
+    let data={
+      "user_name":"user1",
+      "room":"room1",
+      "x":event.clientX,
+      "y":event.clientY
+    }
+    socket.emit("coordinates", data);
+    
+  }
+  
   //listens for socket.io emits
   listenSocket=()=>{
     
+      let channel={"room":"room1"}
+      socket.emit("join_room",channel);
+
     //calling update cursor function when gets coordinates from server
     socket.on('coordinates',data=>{
+      console.log(data)
       this.updateCursor(data)
     })
 
     //calling update code function when gets code from server
     socket.on('code',data=>{
+      console.log(data);
       this.updateCode(JSON.parse(data.code))
     });
 
@@ -100,6 +108,7 @@ class App extends React.Component {
 
   //function to position duplicate cursor on user screen
   updateCursor=(data)=>{
+    console.log(data)
     let x=data.x
     let y=data.y
 
@@ -120,6 +129,7 @@ class App extends React.Component {
 
   //start the socket connection to the server
   componentDidMount(){
+   
       this.listenSocket();
   }
 
