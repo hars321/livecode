@@ -14,6 +14,7 @@ class DirectoryBar extends Component{
     
       componentDidMount(){
 
+        console.log(this.props.data)
           let count=10 || this.props.count
           
           let arr=[] 

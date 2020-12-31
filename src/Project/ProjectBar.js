@@ -2,29 +2,35 @@
 import { Component } from 'react';
 import Element from './Element'
 import './ProjectBar.css';
-
+import DirectoryBar from '../Directory/DirectoryBar.js'
 class ProjectBar extends Component{
 
     constructor(props){
       super(props)
         this.state={
-          
+          data:""
         }
       }
     
       componentDidMount(){
-          let count=10 || this.props.count
+          
+          let data=this.props.data.projects;
+        
+          let count=data.length
           
           let arr=[] 
 
           for(let i = 0 ; i < count ; i++ ){
             
-            let element=<Element/>
+            let element=<Element data={this.props.data} project_data={data[i]}/>
+            
             arr.push(element)
+
           }
 
           this.setState({
-              data:arr
+              data:this.props.data,
+              element:arr
           })
       }
     render(){
@@ -33,10 +39,11 @@ class ProjectBar extends Component{
           <div className="ProjectBar">
             <div className>
                 
-                {this.state.data}
+                {this.state.element}
 
             </div>
-          </div>      
+          </div>   
+          <DirectoryBar data={this.state.data}/>
         </div>
   
       )

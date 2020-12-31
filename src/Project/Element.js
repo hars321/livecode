@@ -2,6 +2,7 @@
 import { Component } from 'react';
 
 import './Element.css';
+import ProjectBar from './ProjectBar.js';
 
 class Element extends Component{
 
@@ -16,6 +17,16 @@ class Element extends Component{
       word=word[0];
       return word
     }
+    componentDidMount(){
+      var data=this.props.data
+      var project_data=this.props.project_data
+      
+      var name=project_data.name
+      
+      this.setState({
+        name:project_data.name
+      })
+    }
   render(){
     return (
       <div className="Element-parent">
@@ -24,6 +35,7 @@ class Element extends Component{
             <h3 className="Element-image" >{this.truncate(this.state.name)}</h3>
           </div>
         </div>      
+        
       </div>
 
     )
