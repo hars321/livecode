@@ -10,26 +10,47 @@ class App extends React.Component{
   constructor(props){
     super(props)
     this.state={
-      data:""
+      data:"",
+      projects:"",
+      directory:"",
+      user:""
     }
   }
   componentDidMount=()=>{
+
+    var url = window.location.origin
+    var id=1;
+    var url_parameter=`?project_id=${id}&directory=${id}&subdirectory=${id}`
+
+    var new_url = url + url_parameter;
+
     
-    fetch('http://localhost:4000/findusers')
+    
+    fetch('http://localhost:4000/finduserbyid/5ff19908b3c5741086c9533c')
  
     .then(data=>data.json())
     .then(data=>{
       console.log(data)
       if(data.length!=0)
       {
+        console.log(data)
         this.setState({
-          data:data[3]
+          data:data,
+          user:data,
+          projects:data.projects,
+
         })
       }
       
     })
     .catch(err=>console.log(err))
+    
+    console.log(this.props.data)
+   
   }
+
+
+
   render(){
     if(this.state.data==""){
       return(
@@ -40,8 +61,10 @@ class App extends React.Component{
     }
     return (
       <div className="App" >
-        <ProjectBar data={this.state.data}/>
-       
+        <ProjectBar />
+        {/* <DirectoryBar/>
+        <Monaco/>
+        */}
       </div>
     );
   }

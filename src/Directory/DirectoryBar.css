@@ -1,9 +1,9 @@
 .DirectoryBar-parent{
-    width: 20vw;
+    width: 100vw;
     height: 100vh;
-    background-color: #2f3136;
-    color:#b9bbbe;
-    font-family: 'Josefin Sans', sans-serif;
+
+    display: flex;
+    flex-direction: row;
     
 }
 .DirectoryBar-List{
@@ -13,6 +13,7 @@
     flex-direction: column;
     /* justify-content: center; */
     align-items: center;
+    height: 80vh-3rem;
 
 }
 .DirectoryBar-User{
@@ -25,4 +26,13 @@
    
     border-bottom: thin solid #b9bbbe;
     margin-bottom: 2rem;
+}
+
+.Directory{
+    width: 15vw;
+    
+    background-color: #2f3136;
+    color:#b9bbbe;
+    font-family: 'Josefin Sans', sans-serif;
+    
 }

@@ -1,13 +1,15 @@
-.Directory-Parent{
+
+.SubDirectory-Parent{
+    margin-left: 2rem;
     color:#b9bbbe;
     font-family: 'Josefin Sans', sans-serif;
     display: flex;
-    flex-direction: column;
-    border-bottom: thin solid #5a5b5e;
+    flex-direction: row;
 }
-.Directory{
+.SubDirectory{
     padding:1rem;
 }
-.Directory *{
+.SubDirectory *{
     margin: 0px;
 }
+

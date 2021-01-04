@@ -3,35 +3,55 @@ import { Component } from 'react';
 import Element from './Element'
 import './ProjectBar.css';
 import DirectoryBar from '../Directory/DirectoryBar.js'
+import url, { modifyUrl } from '../url'
 class ProjectBar extends Component{
 
     constructor(props){
       super(props)
         this.state={
-          data:""
+          data:"",
+          active_project:"",
+          projects:""
+          
         }
       }
-    
-      componentDidMount(){
-          
-          let data=this.props.data.projects;
+      activeProject=(project_id)=>{
         
-          let count=data.length
+        var projects = this.state.projects;
+        var active_project=projects[project_id].directories
+        this.setState({
+          active_project
+        })
+      }
+
+      
+      componentDidMount(){
+        var user_id="5ff19908b3c5741086c9533c"
+
+        var fetch_url='http://localhost:4000/finduserbyid/'+user_id;
+
+        fetch(fetch_url)
+        .then(data=>data.json())
+        .then(data=>{
           
-          let arr=[] 
-
-          for(let i = 0 ; i < count ; i++ ){
-            
-            let element=<Element data={this.props.data} project_data={data[i]}/>
-            
+          var count = data.projects.length;
+          var arr = []
+      
+          for( var i = 0 ; i < count ; i++ ){
+            var project=data.projects[i]
+            // console.log(project._id,project.name)
+            var element=<Element index={i} id={project._id} name={project.name} directories={project[i]} activeProject={this.activeProject}/>
             arr.push(element)
-
           }
+          var active=0;
 
           this.setState({
-              data:this.props.data,
-              element:arr
+            "data":arr,
+            "projects":data.projects,
+            "active_project":data.projects[0].directories
           })
+        })
+          
       }
     render(){
       return (
@@ -39,11 +59,11 @@ class ProjectBar extends Component{
           <div className="ProjectBar">
             <div className>
                 
-                {this.state.element}
+                {this.state.data}
 
             </div>
-          </div>   
-          <DirectoryBar data={this.state.data}/>
+          </div>  
+          <DirectoryBar directories={this.state.active_project} /> 
         </div>
   
       )

@@ -3,13 +3,17 @@ import { Component } from 'react';
 
 import './Element.css';
 import ProjectBar from './ProjectBar.js';
+import { useHistory } from "react-router-dom";
+import { modifyUrl } from '../url';
 
 class Element extends Component{
 
   constructor(props){
     super(props)
       this.state={
-        'name':'name'
+        'name':'name',
+        "id":'',
+        'data':''
       }
     }
     truncate=(str)=>{
@@ -17,19 +21,40 @@ class Element extends Component{
       word=word[0];
       return word
     }
+
+    //adds project id into the url
+    goto=(e)=>{
+      this.props.activeProject(this.state.key)
+
+      var data={
+        "project_id":this.state.id
+      }
+      var new_url = modifyUrl(data);
+
+
+      // console.log(new_url)
+
+      window.history.replaceState(null, "New Page Title", new_url)
+
+    }
+    
     componentDidMount(){
-      var data=this.props.data
-      var project_data=this.props.project_data
-      
-      var name=project_data.name
-      
+      //get base url of current website
+      var base_url=window.location.origin;
+      // console.log(this.props.id)
+      // console.log(this.props.name)
+      console.log(this.props.index)
+      //update the state
       this.setState({
-        name:project_data.name
+        key:this.props.index,
+        id:this.props.id,
+        name:this.props.name,
+        data:this.props.data
       })
     }
   render(){
     return (
-      <div className="Element-parent">
+      <div className="Element-parent" id={this.state.id} onClick={this.goto} >
         <div className="Element">
           <div className="Element-image-circle" >
             <h3 className="Element-image" >{this.truncate(this.state.name)}</h3>
