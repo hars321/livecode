@@ -39,7 +39,7 @@ class ProjectBar extends Component{
       
           for( var i = 0 ; i < count ; i++ ){
             var project=data.projects[i]
-            // console.log(project._id,project.name)
+            console.log("current project",project._id,project.name)
             var element=<Element index={i} id={project._id} name={project.name} directories={project[i]} activeProject={this.activeProject}/>
             arr.push(element)
           }

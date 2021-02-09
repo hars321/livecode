@@ -7,9 +7,7 @@
     flex-direction: row;
 }
 .SubDirectory{
-    padding:1rem;
-}
-.SubDirectory *{
-    margin: 0px;
+    margin:2px;
+    padding: 2px;
 }
 

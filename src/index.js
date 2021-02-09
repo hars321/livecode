@@ -12,7 +12,7 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
     {/* <Redirect to={`/project_id=1&directory=1&subdirectory=1`} /> */}
-      <Route path='/' component={App}></Route>      
+      <Route path='/' component={App}></Route> 
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

@@ -15,6 +15,7 @@ class Element extends Component{
         "id":'',
         'data':''
       }
+      // this.goto=goto.bind(this)
     }
     truncate=(str)=>{
       let word= str.toUpperCase();
@@ -29,12 +30,10 @@ class Element extends Component{
       var data={
         "project_id":this.state.id
       }
-      var new_url = modifyUrl(data);
+
+      // this.props.history.push('/foo');
 
 
-      // console.log(new_url)
-
-      window.history.replaceState(null, "New Page Title", new_url)
 
     }
     
@@ -43,7 +42,7 @@ class Element extends Component{
       var base_url=window.location.origin;
       // console.log(this.props.id)
       // console.log(this.props.name)
-      console.log(this.props.index)
+      // console.log(this.props.data)
       //update the state
       this.setState({
         key:this.props.index,

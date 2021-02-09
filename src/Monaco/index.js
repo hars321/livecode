@@ -4,9 +4,16 @@ import MonacoEditor from 'react-monaco-editor';
 import socketIOClient from "socket.io-client";
 import './index.css';
 
+import {Context} from '../Context';
+import { getParam } from '../url';
+
+
+
+
 const ENDPOINT = "http://localhost:4000";
 const socket = socketIOClient(ENDPOINT);
     
+
 
 
 var compilerCode=""
@@ -16,32 +23,74 @@ class App extends React.Component {
     super(props);
     this.state = {
       code: '',
+      id:'',
+      code:''
     }
    this.updateCode=this.updateCode.bind(this)
    this.updateCursor=this.updateCursor.bind(this)
    this.sendCode=this.sendCode.bind(this)
+   this.updateId=this.updateId.bind(this)
+   
+  }
+  updateId=(id)=>{
+
+    this.setState({
+      id
+    })
   }
 
+  startSocket=()=>{
+    console.log("listening socket")
+    this.listenSocket();
+  }
+  turnOffSocket=()=>{
+    socket.disconnect() 
+
+    socket.off(); // stops listening to all events
+  }
+
+
+  static getDerivedStateFromProps(){
+    console.log("getderivedstate")
+  }
+  //changing subdirectory
+  componentDidUpdate(prevProps,prevState) {
+    
+    if (this.props.data.id!=undefined && this.state.id !== prevProps.data.id) {
+      console.log("calling componentDidUpdate")
+        
+        // this.updateId(this.props.data.id);
+        // this.fetchCode(this.props.data.id);
+
+        return true;
+    }
+    return false;
+}
+  
   // do not modify
   editorDidMount(editor, monaco) {
-    console.log('editorDidMount', editor);
+    // console.log('editorDidMount', editor);
     editor.focus();
   }
 
-  sendCode=()=>{
+  sendCode=(code)=>{
+    console.log("monaco",this.props)
     let data={
-      "room":"room1",
-      "code":this.getData()
+      "room":this.props.data.id,
+      "directory":this.props.data.directory_id,
+      "code":code
     }
     // let data=code
+    console.log(data)
     socket.emit("code", data);
 
   }
   // do not modify
   onChange=(newValue, e)=>{
     compilerCode=newValue;
-    this.sendCode();
-    console.log('onChange', newValue, e);
+    // console.log(newValue)
+    this.sendCode(compilerCode);
+    // console.log('onChange', newValue, e);
   }
 
 
@@ -49,7 +98,7 @@ class App extends React.Component {
  
 //returns the code written in compiler in JSON string format
   getData(){
-    let output=JSON.stringify(compilerCode)
+    let output=compilerCode
     return output;
   }
 
@@ -78,19 +127,35 @@ class App extends React.Component {
 
     let data={
       "user_name":"user1",
-      "room":"room1",
+      "room":this.state.id,
       "x":event.clientX,
       "y":event.clientY
     }
     socket.emit("coordinates", data);
     
   }
+
+  //fetch code from express
+  fetchCode(id){
+    var endpoint = "http://localhost:4000/findcodebyid/"+id;
+    fetch(endpoint)
+    .then(data=>data.json()
+    .then(data=>{
+      this.updateCode(data.code);
+    })
+    )
+    .catch(err=>{
+      console.log(err);
+    })
+  }
   
   //listens for socket.io emits
   listenSocket=()=>{
     
-      let channel={"room":"room1"}
-      socket.emit("join_room",channel);
+    socket.connect();
+    let channel={"room":this.props.data.id}
+    console.log("listening socket", channel)
+    socket.emit("join_room",channel);
 
     //calling update cursor function when gets coordinates from server
     socket.on('coordinates',data=>{
@@ -101,7 +166,7 @@ class App extends React.Component {
     //calling update code function when gets code from server
     socket.on('code',data=>{
       console.log(data);
-      this.updateCode(JSON.parse(data.code))
+      this.updateCode(data.code)
     });
 
   }
@@ -121,16 +186,26 @@ class App extends React.Component {
 
   //update the state code with code received from server
   updateCode=(data)=>{
-    console.log(data)
     this.setState({
       code:data
     });
   }
 
+
   //start the socket connection to the server
   componentDidMount(){
-   
-      this.listenSocket();
+      
+    console.log("calling componentDidMount")
+    //get id as props
+    
+     this.turnOffSocket();
+    //  this.updateId(this.props.data.id);
+     this.startSocket();
+    //  //fetch code of given id
+    // //  this.updateCode(this.props.data.code);
+    this.fetchCode(this.props.data.id);
+
+      
   }
 
   render() {
@@ -163,6 +238,6 @@ class App extends React.Component {
     );
   }
 }
-
 export default App;
+
 

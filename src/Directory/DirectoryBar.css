@@ -36,3 +36,7 @@
     font-family: 'Josefin Sans', sans-serif;
     
 }
+
+.active-subdirectory{
+    background-color: rgba(203, 196, 196, 0.272);
+}

@@ -2,7 +2,7 @@
 import { Component } from 'react';
 import Directory from './Directory'
 import './DirectoryBar.css';
-import Monaco from '../Monaco/index'
+import Monaco from '../Monaco/index';
 
 class DirectoryBar extends Component{
 
@@ -11,10 +11,13 @@ class DirectoryBar extends Component{
         this.state={
           user:"user",
           directories:"",
-          arr:""
+          arr:"",
+          subdirectory_data:"",
+          prevSubdirectory:""
         }
       }
-    
+      
+      //gets triggered on project change
       componentDidUpdate(prevProps, prevState, snapshot) {
 
         if(this.props != prevProps){
@@ -25,79 +28,66 @@ class DirectoryBar extends Component{
 
                 for(let i = 0 ; i < count ; i++ ){
                   
-                  let element=<Directory id={directories[i]._id} name={directories[i].name} data={directories[i]}/>
+                  let element=<Directory id={directories[i]._id} name={directories[i].name} data={directories[i]} changeSubdirectory={this.changeSubdirectory}/>
                   arr.push(element)
                 }
               
                   this.setState({
                   // "user":user,
                   "directories":directories,
-                  "data":arr
+                  "data":arr,
                 })}
       }
-      componentDidMount(){
-        //maple url /?project_id=5feb6784c6f7fd3fd83503a2&directory=1&subdirectory=1
+      
+      activateSubdirectory=(newId)=>{
+
+        var activeObject = document.getElementById(newId);
         
-      console.log(this.props)
-        var directories=this.props.directories
-        // console.log(directories)
-        //get project_id from the url 
-        // const urlParams = new URLSearchParams(url);
-        // const project_id=urlParams.get('project_id');
-
-        // var fetch_url='http://localhost:4000/findDirectory/'+project_id
+        activeObject.classList.add("active-subdirectory");
         
-        // //fetch directory details from database
-        // fetch(fetch_url)
- 
-        // .then(data=>data.json())
-        // .then(data=>{
-        //   data=data[0]
-        //   if(data.length!=0)
-        //   {
+        var oldId = this.state.currentSubdirectory;
+        
+        this.setState({
+          prevSubdirectory:newId
+        })
+        
+      }
+      
+      deactivatePreviousSubdirectory=()=>{
+        
+        
+        var oldId = this.state.prevSubdirectory;
 
-        //     //find the project with id = project_id
-        //     for( let i = 0 ; i < data.projects.length ; i++ ){
-              
-        //       if (data.projects[i]._id == project_id){
-                  
-        //         //store the user data and directories
-        //         var user=data;
-                // var directories=data.projects[i].directories;
-
-                // let count=directories.length
+        console.log("oldid",oldId)
+        if(oldId != null && oldId != ""){
           
-                // var arr=[] 
-
-                // for(let i = 0 ; i < count ; i++ ){
-                  
-                //   let element=<Directory id={directories[i]._id} name={directories[i].name} data={directories[i]}/>
-                //   arr.push(element)
-                // }
-              
-                //   this.setState({
-                //   // "user":user,
-                //   "directories":directories,
-                //   "data":arr
-                // })
-
-        //       }
-
-        //     }
-        //   }
-
-        // })
-        // .catch(err=>console.log(err))
-
-
-        // const directory = urlParams.get('directory')
-        // console.log("dir"+directory)
+          var inactiveObject = document.getElementById(oldId);
+          
+          if(inactiveObject != undefined && inactiveObject != null){
+            inactiveObject.classList.remove("active-subdirectory");
+          }
+          
 
         }
-
         
+
+      }
+      //changes sub directory of active window
+    changeSubdirectory=(data)=>{
+      
+      console.log("active window",data)
+      this.deactivatePreviousSubdirectory();
+      this.activateSubdirectory(data.id);
+      
+      console.log(data)
+      this.setState({
+        "subdirectory_data":data
+      })
+    }
+
     render(){
       return (
+        
         <div className="DirectoryBar-parent">
           <div className="Directory">
             <div className="DirectoryBar-User">
@@ -114,10 +104,11 @@ class DirectoryBar extends Component{
           </div> 
 
           <div className="Monaco-Wrapper">
-                    <Monaco/>
+              <Monaco key={window.location.href} data={this.state.subdirectory_data}/>
           </div>
 
         </div>
+        
   
       )
     }

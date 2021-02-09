@@ -19,16 +19,22 @@ export function modifyUrl(data){
     if(data.subdirectory){
         urlParams.set("subdirectory",data.subdirectory)
     }
-
+    var para=urlParams.toString();
     //return the new url
     var newUrl=base_url+'/?'+urlParams.toString()
     return newUrl
 }
 
-export function getParam(data){
+export function getParam(){
     var url = window.location.search
 
     const urlParams = new URLSearchParams(url)
-
-    return urlParams.get(data)
+    
+    var body = {
+        "project_id":urlParams.get("project_id"),
+        "directory":urlParams.get("directory"),
+        "subdirectory":urlParams.get("subdirectory")
+    }
+    
+    return body
 }

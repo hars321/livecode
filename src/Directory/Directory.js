@@ -4,6 +4,7 @@ import './Directory.css';
 import Monaco from '../Monaco/index'
 import url, { modifyUrl } from '../url'
 import SubDirectory from './SubDirectory'
+
 class Directory extends Component{
 
     constructor(props){
@@ -24,13 +25,16 @@ class Directory extends Component{
         // var directory = this.props.directory
         // console.log(this.props.id)
         // var name = directory.name
-        
+        console.log(
+        "directory",
+        this.props.id
+        )
         var subdirectories=this.props.data.subdirectories
         var count = subdirectories.length
-
+        
         var arr=[]
         for(var i = 0 ; i < count ; i++){
-            var subdirectory = <SubDirectory data = {subdirectories[i]} />
+            var subdirectory = <SubDirectory directory_id={this.props.id} data = {subdirectories[i]} changeSubdirectory={this.props.changeSubdirectory} />
             arr.push(subdirectory)
         }
 
@@ -49,7 +53,7 @@ class Directory extends Component{
     render(){
         return(
             <div className="Directory-Parent" onClick={this.goto}>
-                <div className="Directory">
+                <div id={this.props.directory_id} className="Directory">
                     <h4>#{this.state.name}</h4>
                 </div>
                
