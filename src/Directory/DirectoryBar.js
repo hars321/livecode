@@ -21,6 +21,7 @@ class DirectoryBar extends Component{
       componentDidUpdate(prevProps, prevState, snapshot) {
 
         if(this.props != prevProps){
+          // console.log("directorybar compupate",this.props)
         var directories = this.props.directories ;
         let count=directories.length
           
@@ -28,7 +29,7 @@ class DirectoryBar extends Component{
 
                 for(let i = 0 ; i < count ; i++ ){
                   
-                  let element=<Directory id={directories[i]._id} name={directories[i].name} data={directories[i]} changeSubdirectory={this.changeSubdirectory}/>
+                  let element=<Directory id={directories[i]._id} name={directories[i].name} subdirectories={directories[i].subdirectories}  data={directories[i]} changeSubdirectory={this.changeSubdirectory}/>
                   arr.push(element)
                 }
               
@@ -43,40 +44,28 @@ class DirectoryBar extends Component{
 
         var activeObject = document.getElementById(newId);
         
-        activeObject.classList.add("active-subdirectory");
-        
-        var oldId = this.state.currentSubdirectory;
-        
-        this.setState({
-          prevSubdirectory:newId
-        })
-        
+        if(activeObject!=undefined && activeObject!=null){
+          activeObject.classList.add("active-subdirectory");
+        }
+      
       }
       
       deactivatePreviousSubdirectory=()=>{
         
+          var inactiveObject = document.getElementsByClassName("SubDirectory");
         
-        var oldId = this.state.prevSubdirectory;
-
-        console.log("oldid",oldId)
-        if(oldId != null && oldId != ""){
-          
-          var inactiveObject = document.getElementById(oldId);
-          
-          if(inactiveObject != undefined && inactiveObject != null){
-            inactiveObject.classList.remove("active-subdirectory");
+          for(let itr = 0 ; itr < inactiveObject.length ; itr ++){
+            inactiveObject[itr].classList.remove("active-subdirectory");
           }
-          
-
-        }
-        
 
       }
+
       //changes sub directory of active window
     changeSubdirectory=(data)=>{
       
       console.log("active window",data)
       this.deactivatePreviousSubdirectory();
+      console.log("active subdirectory has id ", data.id);
       this.activateSubdirectory(data.id);
       
       console.log(data)
@@ -84,7 +73,9 @@ class DirectoryBar extends Component{
         "subdirectory_data":data
       })
     }
-
+    componentDidMount(){
+      // console.log("directory bar",this.props)
+    }
     render(){
       return (
         

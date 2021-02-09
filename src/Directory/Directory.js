@@ -21,20 +21,14 @@ class Directory extends Component{
         var new_url = modifyUrl(data)
         window.history.replaceState(null, "New Page Title", new_url)
     }
-    componentDidMount=()=>{
-        // var directory = this.props.directory
-        // console.log(this.props.id)
-        // var name = directory.name
-        console.log(
-        "directory",
-        this.props.id
-        )
-        var subdirectories=this.props.data.subdirectories
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props!=prevProps){
+            var subdirectories=this.props.subdirectories
         var count = subdirectories.length
         
         var arr=[]
         for(var i = 0 ; i < count ; i++){
-            var subdirectory = <SubDirectory directory_id={this.props.id} data = {subdirectories[i]} changeSubdirectory={this.props.changeSubdirectory} />
+            var subdirectory = <SubDirectory subdirectory_id={subdirectories[i]._id} directory_id={this.props.id} data = {subdirectories[i]} changeSubdirectory={this.props.changeSubdirectory} />
             arr.push(subdirectory)
         }
 
@@ -44,11 +38,25 @@ class Directory extends Component{
              "data":this.props.data,
              "subdirectories":arr
          })
-        // var url = window.location.search
+        }
+    }
+    componentDidMount=()=>{
         
-        // const urlParams = new URLSearchParams(url);
-        // const subdirectory = urlParams.get('subdirectory')
-        // console.log("sub"+subdirectory)
+        var subdirectories=this.props.subdirectories
+        var count = subdirectories.length
+        
+        var arr=[]
+        for(var i = 0 ; i < count ; i++){
+            var subdirectory = <SubDirectory subdirectory_id={subdirectories[i]._id} directory_id={this.props.id} data = {subdirectories[i]} changeSubdirectory={this.props.changeSubdirectory} />
+            arr.push(subdirectory)
+        }
+
+         this.setState({
+             "name":this.props.name,
+             "id":this.props.id,
+             "data":this.props.data,
+             "subdirectories":arr
+         })
     }
     render(){
         return(

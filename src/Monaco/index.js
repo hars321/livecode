@@ -196,13 +196,13 @@ class App extends React.Component {
   componentDidMount(){
       
     console.log("calling componentDidMount")
+    console.log(this.props)
     //get id as props
     
      this.turnOffSocket();
-    //  this.updateId(this.props.data.id);
+     
+     this.updateId(this.props.data.id);
      this.startSocket();
-    //  //fetch code of given id
-    // //  this.updateCode(this.props.data.code);
     this.fetchCode(this.props.data.id);
 
       

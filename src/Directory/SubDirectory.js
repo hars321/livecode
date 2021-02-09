@@ -28,21 +28,29 @@ class SubDirectory extends Component{
     //handles click on subdirectory
     //calls function received from directorybar->directory->subdirectory
     handleClickOnSubDirectory=()=>{
+
+        console.log("current subdirectory",this.props)
         var data={
-            "id":this.state.id,
+            "id":this.props.subdirectory_id,
             "directory_id":this.props.directory_id,
             "code":this.state.code
         }
         this.props.changeSubdirectory(data)
     }
-    
+    componentDidUpdate(prevProps,prevState) {
+        if(prevProps!=this.props){
+            return true;
+        }
+        return false;
+    }
 
     //takes props from directory.js
     //set props in state
     componentDidMount=()=>{
-        console.log("subdirecotyr",this.props)
+        console.log("subdirectory props",this.props.data)
+        
         var directory = this.props.data
-        var id=directory._id
+        var id=this.props.directory_id
         var name = directory.name
         var code = directory.code
 
@@ -66,8 +74,8 @@ class SubDirectory extends Component{
         return(
 
             <div className="SubDirectory-Parent" onClick={this.handleClickOnSubDirectory}>
-                <div id={this.state.id} className="SubDirectory">
-                    <h4 >-->{this.state.name}</h4>        
+                <div id={this.props.subdirectory_id} className="SubDirectory">
+                    <h4 >-->{this.props.data.name}</h4>        
                 </div>                
             </div>
         

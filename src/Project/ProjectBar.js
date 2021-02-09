@@ -3,7 +3,16 @@ import { Component } from 'react';
 import Element from './Element'
 import './ProjectBar.css';
 import DirectoryBar from '../Directory/DirectoryBar.js'
-import url, { modifyUrl } from '../url'
+
+
+// child is Element.js -> projects and directorybar
+
+// in componentDidMount 
+// project details of user_id is fetched from database
+// following props are passed to project ->
+// index={i} id={project._id} name={project.name} directories={project[i]} activeProject={this.activeProject}
+
+// DirectoryBar passes current project details as props
 class ProjectBar extends Component{
 
     constructor(props){
@@ -15,6 +24,9 @@ class ProjectBar extends Component{
           
         }
       }
+
+      // when project elment is clicked following function is called
+      // function changes existing project
       activeProject=(project_id)=>{
         
         var projects = this.state.projects;
