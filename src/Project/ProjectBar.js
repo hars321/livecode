@@ -40,7 +40,7 @@ class ProjectBar extends Component{
       componentDidMount(){
         var user_id="5ff19908b3c5741086c9533c"
 
-        var fetch_url='http://localhost:4000/finduserbyid/'+user_id;
+        var fetch_url='https://livecodebackend.herokuapp.com/finduserbyid/'+user_id;
 
         fetch(fetch_url)
         .then(data=>data.json())

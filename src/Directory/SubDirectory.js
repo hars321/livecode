@@ -54,7 +54,7 @@ class SubDirectory extends Component{
         var name = directory.name
         var code = directory.code
 
-        var fetch_url = "http://localhost:4000/findcodebyid/"+id;
+        var fetch_url = "https://livecodebackend.herokuapp.com/findcodebyid/"+id;
 
         fetch(fetch_url)
         .then(data=>console.log(data))

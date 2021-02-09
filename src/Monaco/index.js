@@ -137,7 +137,7 @@ class App extends React.Component {
 
   //fetch code from express
   fetchCode(id){
-    var endpoint = "http://localhost:4000/findcodebyid/"+id;
+    var endpoint = "https://livecodebackend.herokuapp.com/findcodebyid/"+id;
     fetch(endpoint)
     .then(data=>data.json()
     .then(data=>{
@@ -199,10 +199,10 @@ class App extends React.Component {
     console.log(this.props)
     //get id as props
     
-     this.turnOffSocket();
-     
-     this.updateId(this.props.data.id);
-     this.startSocket();
+    this.turnOffSocket();
+    
+    this.updateId(this.props.data.id);
+    this.startSocket();
     this.fetchCode(this.props.data.id);
 
       
