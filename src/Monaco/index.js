@@ -9,8 +9,8 @@ import { getParam } from '../url';
 
 
 
-
-const ENDPOINT = "http://localhost:4000";
+//heroku port for backend is 49978
+const ENDPOINT = "http://livecodebackend.herokuapp.com:49978";
 const socket = socketIOClient(ENDPOINT);
     
 
