@@ -19,7 +19,9 @@ console.log(url)
 
 
     
-var socket = io(url, {transports: ['websocket', 'polling', 'flashsocket']});
+// var socket = io(url, {transports: ['websocket', 'polling', 'flashsocket']});
+const socket = socketIOClient(ENDPOINT);
+
 
 
 
