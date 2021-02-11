@@ -6,13 +6,21 @@ import './index.css';
 
 import {Context} from '../Context';
 import { getParam } from '../url';
+import io from 'socket.io-client'   
+import {ENDPOINT} from '../serverEndpoint';
+
+console.log(ENDPOINT)
+var PORT = ":28112";
+var url = ENDPOINT + PORT;
+console.log(url)
+//heroku port for backend is 28112
+// const ENDPOINT = "http://livecodebackend.herokuapp.com:7959";
+// const socket = socketIOClient(ENDPOINT);
 
 
-
-//heroku port for backend is 49978
-const ENDPOINT = "http://livecodebackend.herokuapp.com:49978";
-const socket = socketIOClient(ENDPOINT);
     
+var socket = io(url, {transports: ['websocket', 'polling', 'flashsocket']});
+
 
 
 

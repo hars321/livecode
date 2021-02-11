@@ -4,6 +4,7 @@ import ProjectBar from './Project/ProjectBar';
 import './App.css';
 import DirectoryBar from './Directory/DirectoryBar.js';
 import React from 'react'
+import { ENDPOINT } from './serverEndpoint.js';
 
 
 class App extends React.Component{
@@ -25,8 +26,9 @@ class App extends React.Component{
     var new_url = url + url_parameter;
 
     
-    
-    fetch('https://livecodebackend.herokuapp.com/finduserbyid/5ff19908b3c5741086c9533c')
+    var url = ENDPOINT + "/finduserbyid/5ff19908b3c5741086c9533c"
+    // console.log(url)
+    fetch(url)
  
     .then(data=>data.json())
     .then(data=>{

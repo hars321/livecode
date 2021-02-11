@@ -3,6 +3,7 @@ import { Component } from 'react';
 import Element from './Element'
 import './ProjectBar.css';
 import DirectoryBar from '../Directory/DirectoryBar.js'
+import { ENDPOINT } from '../serverEndpoint';
 
 
 // child is Element.js -> projects and directorybar
@@ -40,8 +41,8 @@ class ProjectBar extends Component{
       componentDidMount(){
         var user_id="5ff19908b3c5741086c9533c"
 
-        var fetch_url='https://livecodebackend.herokuapp.com/finduserbyid/'+user_id;
-
+        var fetch_url=ENDPOINT+'/finduserbyid/'+user_id;
+        console.log(fetch_url);
         fetch(fetch_url)
         .then(data=>data.json())
         .then(data=>{

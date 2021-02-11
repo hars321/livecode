@@ -5,6 +5,7 @@ import Monaco from '../Monaco/index'
 import url, { getParam, modifyUrl } from '../url'
 import { getCode,setCode } from '../Store';
 import { monaco } from 'react-monaco-editor';
+import { ENDPOINT } from '../serverEndpoint';
 // const MyContext = React.createContext();
 
 
@@ -54,7 +55,7 @@ class SubDirectory extends Component{
         var name = directory.name
         var code = directory.code
 
-        var fetch_url = "https://livecodebackend.herokuapp.com/findcodebyid/"+id;
+        var fetch_url = ENDPOINT+'/'+id;
 
         fetch(fetch_url)
         .then(data=>console.log(data))
