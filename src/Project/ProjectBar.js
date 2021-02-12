@@ -39,9 +39,10 @@ class ProjectBar extends Component{
 
       
       componentDidMount(){
+        var uid = "60269f1055f0113dd06a4b08"
         var user_id="5ff19908b3c5741086c9533c"
 
-        var fetch_url=ENDPOINT+'/finduserbyid/'+user_id;
+        var fetch_url=ENDPOINT+'/finduserbyid/'+uid;
         console.log(fetch_url);
         fetch(fetch_url)
         .then(data=>data.json())

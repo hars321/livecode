@@ -25,8 +25,8 @@ class App extends React.Component{
 
     var new_url = url + url_parameter;
 
-    
-    var url = ENDPOINT + "/finduserbyid/5ff19908b3c5741086c9533c"
+    var uid = "60269f1055f0113dd06a4b08"
+    var url = ENDPOINT + "/finduserbyid/"+uid;
     // console.log(url)
     fetch(url)
  

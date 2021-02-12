@@ -18,6 +18,9 @@ class Element extends Component{
       // this.goto=goto.bind(this)
     }
     truncate=(str)=>{
+      if(str==undefined){
+        return;
+      }
       let word= str.toUpperCase();
       word=word[0];
       return word
