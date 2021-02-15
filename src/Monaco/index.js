@@ -243,19 +243,23 @@ class App extends React.Component {
   // when current subdirectory changes the function gets triggered
   componentDidUpdate(prevProps,prevState) {
     
-    // if the props are changed
     if(this.state.id != prevState.id){
        // turn off all previous socket connections 
-      this.turnOffSocket();
+    this.turnOffSocket();
     
+    // update the id of the current active subdirectory
+    // this.updateId(this.props.data.id);
+
     // start listening on the current subdirectory
     this.startSocket();
 
     // fetch code of the current active subdirectory
-    this.fetchCode(this.state.id);    
+    this.fetchCode(this.props.data.id);    
     
+      // this.fetchCode(this.state.id)
+      console.log("State changed")
     }
-    
+    // this.fetchCode()
   }
 
   
