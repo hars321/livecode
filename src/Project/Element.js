@@ -6,6 +6,15 @@ import ProjectBar from './ProjectBar.js';
 import { useHistory } from "react-router-dom";
 import { modifyUrl } from '../url';
 
+// Parent Component is ProjectBar
+
+
+// props received are :
+            // index -> index of the current project in the array
+            // id -> the project id 
+            // name -> the peoject name
+            // directories -> the directories present in the current project
+            // function activeProject -> this function is responsible for changing the current active project
 class Element extends Component{
 
   constructor(props){

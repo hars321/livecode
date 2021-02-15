@@ -4,6 +4,25 @@ import Directory from './Directory'
 import './DirectoryBar.css';
 import Monaco from '../Monaco/index';
 
+
+// Parent Component is ProjectBar
+      // props received are -> directories : json object that holds details of all the directories of CURRENT project
+
+// Child Components :
+      
+      // Directory 
+          // props passed:
+              // id => id of the current directory
+              // name => name of the current directory
+              // subdirectories => data of all the directories
+              // data => directory + subdirectory data
+              // changeSubdirectory => function changes current active subdirectory when subdirectory is clicked upon 
+              //                        this function is passed to => directory => subdirectory.js (here click event is trigerred)
+              
+      // Monaco Editor
+        // props passed:
+            // data => subdirectories data -> has the data of all the directories and project id
+
 class DirectoryBar extends Component{
 
     constructor(props){
@@ -39,8 +58,11 @@ class DirectoryBar extends Component{
                   "data":arr,
                 })}
       }
-      
+
+      //function gets triggerred when the user changes(clicks) subdirectory
+      //adds the active-subdirectory class to subdirectory object
       activateSubdirectory=(newId)=>{
+        //newId is the id of the element that is clicked
 
         var activeObject = document.getElementById(newId);
         
@@ -50,6 +72,8 @@ class DirectoryBar extends Component{
       
       }
       
+      //function gets triggerred when the user changes(clicks) subdirectory
+      //removes the active-subdirectory class from all the subdirectory object
       deactivatePreviousSubdirectory=()=>{
         
           var inactiveObject = document.getElementsByClassName("SubDirectory");
@@ -60,22 +84,25 @@ class DirectoryBar extends Component{
 
       }
 
-      //changes sub directory of active window
-    changeSubdirectory=(data)=>{
-      
-      console.log("active window",data)
-      this.deactivatePreviousSubdirectory();
-      console.log("active subdirectory has id ", data.id);
-      this.activateSubdirectory(data.id);
-      
-      console.log(data)
-      this.setState({
-        "subdirectory_data":data
-      })
+      //changes sub directory 
+      // trigerred when user changes(clicks) subdirectory
+      // passed from director-bar to directory to subdirectory
+      changeSubdirectory=(data)=>{
+
+        //data holds the details of the subdirectory being clicked
+        console.log(data)
+        this.deactivatePreviousSubdirectory();
+
+        this.activateSubdirectory(data.id);
+        
+        this.setState({
+          "subdirectory_data":data
+        })
+
+        
+
     }
-    componentDidMount(){
-      // console.log("directory bar",this.props)
-    }
+    
     render(){
       return (
         
@@ -95,7 +122,9 @@ class DirectoryBar extends Component{
           </div> 
 
           <div className="Monaco-Wrapper">
-              <Monaco key={window.location.href} data={this.state.subdirectory_data}/>
+
+              <Monaco data={this.state.subdirectory_data}/>
+              
           </div>
 
         </div>

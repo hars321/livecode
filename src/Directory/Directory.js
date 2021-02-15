@@ -5,6 +5,28 @@ import Monaco from '../Monaco/index'
 import url, { modifyUrl } from '../url'
 import SubDirectory from './SubDirectory'
 
+
+// Parent Component is DirectoryBar
+      // props received are -> directories : json object that holds details of all the directories of CURRENT project
+            // id => id of the current directory
+            // name => name of the current directory
+            // subdirectories => data of all the directories
+            // data => directory + subdirectory data
+            // changeSubdirectory => function changes current active subdirectory when subdirectory is clicked upon 
+            //                        this function is received from directorybar and is passed to subdirectory.js
+            //                        (from) Directorybar => directory => subdirectory.js (pass it down as props)
+
+// Child Components :
+      
+      // SubDirectory 
+          // props passed:
+            // subdirectory_id => id of i-th subdirectory of current directory
+            // directory_id => id of the current directory
+            // data => json object - details of the sub-directories 
+            // changeSubdirectory => function changes current active subdirectory when subdirectory is clicked upon
+            //                        this function is received from directorybar and is passed to subdirectory.js
+            //                        (from) Directorybar => directory => subdirectory.js (pass it down as props)
+            
 class Directory extends Component{
 
     constructor(props){
@@ -16,17 +38,17 @@ class Directory extends Component{
           subdirectories:""
         }
       }
-    goto=()=>{
-        var data={"directory":this.state.id}
-        var new_url = modifyUrl(data)
-        window.history.replaceState(null, "New Page Title", new_url)
-    }
+   
+      // when props from the parent component changes the following function gets trigerred
+      // when new project is clicked => the active project changes => the props passed down also gets changed => function gets trigerred
     componentDidUpdate(prevProps, prevState, snapshot) {
+
         if(this.props!=prevProps){
             var subdirectories=this.props.subdirectories
-        var count = subdirectories.length
+            var count = subdirectories.length
         
-        var arr=[]
+            var arr=[]
+
         for(var i = 0 ; i < count ; i++){
             var subdirectory = <SubDirectory subdirectory_id={subdirectories[i]._id} directory_id={this.props.id} data = {subdirectories[i]} changeSubdirectory={this.props.changeSubdirectory} />
             arr.push(subdirectory)
@@ -40,6 +62,7 @@ class Directory extends Component{
          })
         }
     }
+
     componentDidMount=()=>{
         
         var subdirectories=this.props.subdirectories
@@ -58,6 +81,8 @@ class Directory extends Component{
              "subdirectories":arr
          })
     }
+
+
     render(){
         return(
             <div className="Directory-Parent" onClick={this.goto}>

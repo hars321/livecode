@@ -1,11 +1,13 @@
-
-import Monaco from './Monaco/index.js';
 import ProjectBar from './Project/ProjectBar';
 import './App.css';
-import DirectoryBar from './Directory/DirectoryBar.js';
 import React from 'react'
 import { ENDPOINT } from './serverEndpoint.js';
 
+// App.js 
+
+// functionality -> fetches the details of the current user 
+// we have the current user_id stored in the cookie as the jwt
+// get the current user details using jwt token
 
 class App extends React.Component{
   constructor(props){
@@ -18,24 +20,21 @@ class App extends React.Component{
     }
   }
   componentDidMount=()=>{
-
-    var url = window.location.origin
-    var id=1;
-    var url_parameter=`?project_id=${id}&directory=${id}&subdirectory=${id}`
-
-    var new_url = url + url_parameter;
+    //fetch the details of current user using /finduserbyid/${user_id}
+    // update the state of current user
+    // pass the props down to ProjectBar.js 
 
     var uid = "60269f1055f0113dd06a4b08"
     var url = ENDPOINT + "/finduserbyid/"+uid;
-    // console.log(url)
+    
     fetch(url)
  
     .then(data=>data.json())
     .then(data=>{
-      console.log(data)
+      
       if(data.length!=0)
       {
-        console.log(data)
+        
         this.setState({
           data:data,
           user:data,
@@ -56,16 +55,14 @@ class App extends React.Component{
     if(this.state.data==""){
       return(
         <div className="App">
-          Cannot load Data
+          Loading ....
         </div>
       )
     }
     return (
       <div className="App" >
+        
         <ProjectBar />
-        {/* <DirectoryBar/>
-        <Monaco/>
-        */}
       </div>
     );
   }

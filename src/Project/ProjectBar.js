@@ -6,14 +6,33 @@ import DirectoryBar from '../Directory/DirectoryBar.js'
 import { ENDPOINT } from '../serverEndpoint';
 
 
-// child is Element.js -> projects and directorybar
 
-// in componentDidMount 
-// project details of user_id is fetched from database
-// following props are passed to project ->
-// index={i} id={project._id} name={project.name} directories={project[i]} activeProject={this.activeProject}
+// ProjectBar is child of ../App.js
+// App.js passes data as props
 
-// DirectoryBar passes current project details as props
+// Props received is an array which contains projects data 
+    //prop name : Projects
+
+// Child of ProjectBar is Element.js
+// child is ProjectBar is -> 
+
+    //  -> Element.js 
+
+        // Element.js : This component holds the details of the projects
+        // props passed are :
+            // index -> current index in the loop is passed 
+            // id -> the project id 
+            // name -> the peoject name
+            // directories -> the directories present in the current project
+            // function activeProject -> this function is responsible for changing the current active project
+    
+    //  -> DirectoryBar.js
+        // DirectoryBar.js -> This component renders all the directories present in current active project
+        // props passed are -> directories : json object that holds all the directories of CURRENT ACTIVE project
+        
+
+
+// DirectoryBar is passed current active project details 
 class ProjectBar extends Component{
 
     constructor(props){
@@ -28,19 +47,31 @@ class ProjectBar extends Component{
 
       // when project elment is clicked following function is called
       // function changes existing project
+      // function is passed as props to element.js
+      
       activeProject=(project_id)=>{
         
+
         var projects = this.state.projects;
+        
+        // replacing the index of previous project in the array with the current project index
         var active_project=projects[project_id].directories
+
+
+        // setting state of current active project
         this.setState({
           active_project
         })
+
       }
 
       
+
+      // get data from props -> this.props.projects
+      // get all the projects from this.props.projects and make an array
+      // render the array element currently clicked
       componentDidMount(){
         var uid = "60269f1055f0113dd06a4b08"
-        var user_id="5ff19908b3c5741086c9533c"
 
         var fetch_url=ENDPOINT+'/finduserbyid/'+uid;
         console.log(fetch_url);

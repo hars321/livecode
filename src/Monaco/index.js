@@ -3,19 +3,8 @@ import { render } from 'react-dom';
 import MonacoEditor from 'react-monaco-editor';
 import socketIOClient from "socket.io-client";
 import './index.css';
-
-import {Context} from '../Context';
-import { getParam } from '../url';
-import io from 'socket.io-client'   
+// import io from 'socket.io-client'   
 import {ENDPOINT} from '../serverEndpoint';
-
-console.log(ENDPOINT)
-var PORT = ":28112";
-var url = ENDPOINT + PORT;
-console.log(url)
-//heroku port for backend is 28112
-// const ENDPOINT = "http://livecodebackend.herokuapp.com:7959";
-// const socket = socketIOClient(ENDPOINT);
 
 
     
@@ -25,16 +14,15 @@ const socket = socketIOClient(ENDPOINT);
 
 
 
-
+// compilercode stores the current code in compiler
 var compilerCode=""
-var room="room1"
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       code: '',
-      id:'',
-      code:''
+      id:''
     }
    this.updateCode=this.updateCode.bind(this)
    this.updateCursor=this.updateCursor.bind(this)
@@ -42,59 +30,128 @@ class App extends React.Component {
    this.updateId=this.updateId.bind(this)
    
   }
-  updateId=(id)=>{
 
-    this.setState({
-      id
-    })
-  }
 
+
+
+  
+  //  function gets triggered when subdirectory changes
+  //  function starts listening to the socket
   startSocket=()=>{
-    console.log("listening socket")
     this.listenSocket();
   }
-  turnOffSocket=()=>{
-    socket.disconnect() 
 
+  //  function gets triggered when subdirectory changes
+  //  function stops listening to the socket
+  turnOffSocket=()=>{
+    console.log("turning off socket")
+    socket.disconnect() 
     socket.off(); // stops listening to all events
   }
 
 
-  static getDerivedStateFromProps(){
-    console.log("getderivedstate")
-  }
-  //changing subdirectory
-  componentDidUpdate(prevProps,prevState) {
-    
-    if (this.props.data.id!=undefined && this.state.id !== prevProps.data.id) {
-      console.log("calling componentDidUpdate")
-        
-        // this.updateId(this.props.data.id);
-        // this.fetchCode(this.props.data.id);
-
-        return true;
-    }
-    return false;
-}
-  
-  // do not modify
-  editorDidMount(editor, monaco) {
-    // console.log('editorDidMount', editor);
-    editor.focus();
-  }
-
+  // when the compiler code is changed the function is trigerred 
+  // sends the compiler code to the server
   sendCode=(code)=>{
-    console.log("monaco",this.props)
     let data={
       "room":this.props.data.id,
       "directory":this.props.data.directory_id,
       "code":code
     }
-    // let data=code
-    console.log(data)
+    
     socket.emit("code", data);
 
   }
+
+
+
+  // function gets emitted when the current user clicks the screen
+  // socket is emmited with the current user's location
+  
+  //gets coordinates of the current user cursor
+
+  //sends the cursor coordinates to socket.io server
+  sendCoords=(event)=>{
+
+    let data={
+      "user_name":"user1",
+      "room":this.state.id,
+      "x":event.clientX,
+      "y":event.clientY
+    }
+    socket.emit("coordinates", data);
+    
+  }
+
+  
+  //listens for socket.io on current active id
+  listenSocket=()=>{
+    
+    socket.connect();
+
+    // {room : id of the current active subdirectory}
+    let channel={"room":this.props.data.id}
+    
+    // join the current active room
+    socket.emit("join_room",channel);
+
+    //calling update cursor function when gets coordinates from server
+    socket.on('coordinates',data=>{
+      this.updateCursor(data)
+    })
+
+    //calling update code function when gets code from server
+    socket.on('code',data=>{
+      this.updateCode(data.code)
+    });
+
+  }
+
+  // function gets trigerred when socket emits cursor change emit
+  //function to position duplicate cursor (user2) on user screen
+  updateCursor=(data)=>{
+    let x=data.x
+    let y=data.y
+
+    y=y-10;
+
+    const cursor = document.getElementById('cursor');
+    cursor.style.left = x+'px';
+    cursor.style.top = y+'px';
+  }
+
+  
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  //Monaco functions 
+
+
+  // do not modify
+  editorDidMount(editor, monaco) {
+    // console.log('editorDidMount', editor);
+    editor.focus();
+  }
+  
+  //updates the compiler code
+  updateCode=(code)=>{
+    this.setState({
+      code:code
+    });
+  }
+
+  // function gets trigerred when code changes in the compiler
   // do not modify
   onChange=(newValue, e)=>{
     compilerCode=newValue;
@@ -103,10 +160,7 @@ class App extends React.Component {
     // console.log('onChange', newValue, e);
   }
 
-
- 
- 
-//returns the code written in compiler in JSON string format
+  //returns the code written in compiler in JSON string format
   getData(){
     let output=compilerCode
     return output;
@@ -131,26 +185,19 @@ class App extends React.Component {
     
   }
 
- //gets coordinates of the current user cursor
-  //sends the cursor coordinates to socket.io server
-  sendCoords=(event)=>{
+  //  fetches the code from server of the current active subdirectory
+  //  function gets executed when the new subdirectory is loaded
 
-    let data={
-      "user_name":"user1",
-      "room":this.state.id,
-      "x":event.clientX,
-      "y":event.clientY
-    }
-    socket.emit("coordinates", data);
-    
-  }
-
-  //fetch code from express
   fetchCode(id){
+    
+    //id is the id of the current active subdirectory
     var endpoint = "https://livecodebackend.herokuapp.com/findcodebyid/"+id;
+    
     fetch(endpoint)
+    
     .then(data=>data.json()
     .then(data=>{
+      // update the code of the new code fetched from the server
       this.updateCode(data.code);
     })
     )
@@ -159,64 +206,61 @@ class App extends React.Component {
     })
   }
   
-  //listens for socket.io emits
-  listenSocket=()=>{
-    
-    socket.connect();
-    let channel={"room":this.props.data.id}
-    console.log("listening socket", channel)
-    socket.emit("join_room",channel);
 
-    //calling update cursor function when gets coordinates from server
-    socket.on('coordinates',data=>{
-      console.log(data)
-      this.updateCursor(data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //lifecycle funtions
+
+  // updates the id of the current active subdirectory
+  updateId=(newid)=>{
+
+    this.setState({
+      "id":newid
     })
 
-    //calling update code function when gets code from server
-    socket.on('code',data=>{
-      console.log(data);
-      this.updateCode(data.code)
-    });
-
-  }
-
-  //function to position duplicate cursor on user screen
-  updateCursor=(data)=>{
-    console.log(data)
-    let x=data.x
-    let y=data.y
-
-    y=y-10;
-
-    const cursor = document.getElementById('cursor');
-    cursor.style.left = x+'px';
-    cursor.style.top = y+'px';
-  }
-
-  //update the state code with code received from server
-  updateCode=(data)=>{
-    this.setState({
-      code:data
-    });
   }
 
 
-  //start the socket connection to the server
-  componentDidMount(){
-      
-    console.log("calling componentDidMount")
-    console.log(this.props)
-    //get id as props
+// when the props from parent changes
+// new props are set as states
+  static getDerivedStateFromProps(props, state) {
+    return {id: props.data.id };
+  }
+
+  // when current subdirectory changes the function gets triggered
+  componentDidUpdate(prevProps,prevState) {
     
-    this.turnOffSocket();
+    // if the props are changed
+    if(this.state.id != prevState.id){
+       // turn off all previous socket connections 
+      this.turnOffSocket();
     
-    this.updateId(this.props.data.id);
+    // start listening on the current subdirectory
     this.startSocket();
-    this.fetchCode(this.props.data.id);
 
-      
+    // fetch code of the current active subdirectory
+    this.fetchCode(this.state.id);    
+    
+    }
+    
   }
+
+  
+
+
 
   render() {
     const code = this.state.code;

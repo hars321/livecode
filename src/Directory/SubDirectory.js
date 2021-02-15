@@ -1,16 +1,19 @@
-import  { Component,useContext } from 'react';
-// import SubDirectory from './SubDirectory'
+import  { Component } from 'react';
 import './SubDirectory.css';
-import Monaco from '../Monaco/index'
-import url, { getParam, modifyUrl } from '../url'
-import { getCode,setCode } from '../Store';
-import { monaco } from 'react-monaco-editor';
 import { ENDPOINT } from '../serverEndpoint';
-// const MyContext = React.createContext();
 
 
 
-// import {callback} from '../Monaco/index'
+// => Parent is Directory 
+//     => props received :
+            // subdirectory_id => id of i-th subdirectory of current directory
+            // directory_id => id of the current directory
+            // data => json object - details of the sub-directories 
+            // changeSubdirectory => function changes current active subdirectory when subdirectory is clicked upon
+            //                        this function is received from directorybar and is passed to subdirectory.js
+            //                        (from) Directorybar => directory => subdirectory.js (pass it down as props)
+
+
 class SubDirectory extends Component{
 
     constructor(props){
@@ -22,15 +25,14 @@ class SubDirectory extends Component{
           url_params:"",
           directory_id:this.props.directory_id
         }
-        this.setCode=setCode.bind(this)
-        this.getCode=getCode.bind(this)
       }
 
-    //handles click on subdirectory
-    //calls function received from directorybar->directory->subdirectory
+    //  handles click when current component is clicked (i.e.,  subdirectory changes )
+    //  calls function received from directorybar->directory->subdirectory
+    //  when current subdirectory is clicked changesubdirectory function is called
+    
     handleClickOnSubDirectory=()=>{
 
-        console.log("current subdirectory",this.props)
         var data={
             "id":this.props.subdirectory_id,
             "directory_id":this.props.directory_id,
@@ -38,6 +40,8 @@ class SubDirectory extends Component{
         }
         this.props.changeSubdirectory(data)
     }
+
+
     componentDidUpdate(prevProps,prevState) {
         if(prevProps!=this.props){
             return true;
@@ -48,24 +52,20 @@ class SubDirectory extends Component{
     //takes props from directory.js
     //set props in state
     componentDidMount=()=>{
-        console.log("subdirectory props",this.props.data)
         
         var directory = this.props.data
         var id=this.props.directory_id
         var name = directory.name
-        var code = directory.code
 
         var fetch_url = ENDPOINT+'/'+id;
 
         fetch(fetch_url)
         .then(data=>console.log(data))
         .catch(err=>console.log(err))
-        console.log(id)
         
          this.setState({
              "name":name,
-             "id":id,
-             "code":code
+             "id":id
          })
         
     }
