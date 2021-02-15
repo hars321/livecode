@@ -31,8 +31,7 @@
 .Directory{
     width: 15vw;
     
-    background-color: #2d3436;
-    background-image: linear-gradient(90deg, #2d3436 0%, #000000 74%);
+    background-color: #000000;
     color:#b9bbbe;
     font-family: 'Josefin Sans', sans-serif;
     
