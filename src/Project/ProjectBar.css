@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 .ProjectBar-parent{
     border-color: grey;
     height: 100vh;
@@ -7,12 +10,29 @@
     flex-direction: row;
 }
 .ProjectBar{
-    background-color: rgb(34, 33, 33);
+   background-color: #000000;
+background-image: linear-gradient(315deg, #000000 0%, #414141 74%);
 
     display: flex;
     align-items: center;
+    justify-content: space-between;
     flex-direction: column;
 
     height: 100%;
     width: 5rem;
+}
+
+.logout-button{
+    background-color: rgba(255, 255, 255, 0.197);
+    border-radius: 2px;
+    padding: 3px;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    border: thin solid white;
+    /* outline:none; */
+    font-size: large;
+}
+
+.Project-Logout{
+    margin-bottom: 2rem;
 }

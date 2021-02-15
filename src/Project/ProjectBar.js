@@ -65,15 +65,20 @@ class ProjectBar extends Component{
 
       }
 
-      
 
+      static getDerivedStateFromProps(props, state) {
+        return {id: localStorage.getItem('_id') };
+      }
+      
       // get data from props -> this.props.projects
       // get all the projects from this.props.projects and make an array
       // render the array element currently clicked
       componentDidMount(){
         var uid = "60269f1055f0113dd06a4b08"
+        var user_id = localStorage.getItem('_id')
+        console.log(user_id);
 
-        var fetch_url=ENDPOINT+'/finduserbyid/'+uid;
+        var fetch_url=ENDPOINT+'/finduserbyid/'+this.state.id;
         console.log(fetch_url);
         fetch(fetch_url)
         .then(data=>data.json())
@@ -102,10 +107,13 @@ class ProjectBar extends Component{
       return (
         <div className="ProjectBar-parent">
           <div className="ProjectBar">
-            <div className>
+            <div className="Project-Elements">
                 
                 {this.state.data}
 
+            </div>
+            <div className="Project-Logout">
+              <button className="logout-button" onClick={this.props.logout}>Logout</button>
             </div>
           </div>  
           <DirectoryBar directories={this.state.active_project} /> 

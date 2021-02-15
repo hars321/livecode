@@ -2,6 +2,7 @@ import ProjectBar from './Project/ProjectBar';
 import './App.css';
 import React from 'react'
 import { ENDPOINT } from './serverEndpoint.js';
+import Register from './Register.js/Register';
 
 // App.js 
 
@@ -16,57 +17,52 @@ class App extends React.Component{
       data:"",
       projects:"",
       directory:"",
-      user:""
+      user:"",
+      id:""
     }
   }
   componentDidMount=()=>{
     //fetch the details of current user using /finduserbyid/${user_id}
     // update the state of current user
     // pass the props down to ProjectBar.js 
-
-    var uid = "60269f1055f0113dd06a4b08"
-    var url = ENDPOINT + "/finduserbyid/"+uid;
-    
-    fetch(url)
- 
-    .then(data=>data.json())
-    .then(data=>{
-      
-      if(data.length!=0)
-      {
-        
-        this.setState({
-          data:data,
-          user:data,
-          projects:data.projects,
-
-        })
-      }
-      
+    var id = localStorage.getItem('_id');
+    this.setState({
+      id:id
     })
-    .catch(err=>console.log(err))
-    
-   
   }
 
+  setUserId=(user_id)=>{
+    this.setState({
+      id:user_id
+    })
+  }
 
+  logout=()=>{
+    // delete localstorage
+    localStorage.removeItem('_id');
 
+    this.setState({
+      id:""
+    })
+  }
+  // componentDidMount(){
+    
+  // }
   render(){
-    if(this.state.data==""){
+    if(this.state.id=="" || this.state.id == undefined){
       return(
-        <div className="App">
-          Loading ....
+        <div className="App" >
+          <Register setUserId={this.setUserId}/>
         </div>
       )
     }
-    return (
-      <div className="App" >
-        
-        <ProjectBar />
-      </div>
-    );
-  }
+    else{
+      return(
+        <ProjectBar logout={this.logout}/>
+      )
+    }
+    
 }
-
+}
 
 export default App;

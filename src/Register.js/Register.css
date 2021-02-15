@@ -1,0 +1,50 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+.Register{
+    background-color: #000000;
+    background-image: linear-gradient(147deg, #000000 0%, #2c3e50 74%);
+    height: 100vh;
+    width: 100vw;
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Input-field{
+    background-color: transparent;
+    border: none;
+    border: none;
+    outline:none;
+
+    border-bottom: thin solid rgba(255, 255, 255, 0.258);
+    color:white;
+    
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: xx-large;
+}
+
+.Input-div{
+    color:white;
+    
+}
+
+.Register-Buttons{
+    font-size: xx-large;
+    border-bottom: none;
+}
+
+.Buttons-Div{
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inactive-button{
+    color: rgb(130, 124, 124);
+}
