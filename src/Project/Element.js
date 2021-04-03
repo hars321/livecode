@@ -39,14 +39,6 @@ class Element extends Component{
     goto=(e)=>{
       console.log("clicked on project",this.state.id)
       this.props.activeProject(this.state.key)
-        
-      // var data={
-      //   "project_id":this.state.id
-      // }
-
-      // this.props.history.push('/foo');
-
-
 
     }
     

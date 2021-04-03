@@ -40,27 +40,50 @@ class ProjectBar extends Component{
         this.state={
           data:"",
           active_project:"",
-          projects:""
-          
+          projects:"",
+          active_project_details:""
         }
+      }
+
+      //update background
+      updateBackground=(id)=>{
+
+        var active_object = document.getElementById(id)
+
+        active_object.classList.add("active_project");
+
+        // remove active-project class from all other components
+        var inactive_objects = document.getElementsByClassName("active_project");
+
+
+        for(let itr=0;itr<inactive_objects.length;itr++){
+
+          if(inactive_objects[itr].id!=id){
+            inactive_objects[itr].classList.remove("active_project");}
+
+          }
+        
       }
 
       // when project elment is clicked following function is called
       // function changes existing project
       // function is passed as props to element.js
-      
       activeProject=(project_id)=>{
         
-
         var projects = this.state.projects;
         
         // replacing the index of previous project in the array with the current project index
         var active_project=projects[project_id].directories
+        var active_project_details=projects[project_id];
 
+        //update background of active project
+        this.updateBackground(active_project_details._id);
 
+        
         // setting state of current active project
         this.setState({
-          active_project
+          active_project:active_project,
+          active_project_details:active_project_details
         })
 
       }
@@ -74,9 +97,8 @@ class ProjectBar extends Component{
       // get all the projects from this.props.projects and make an array
       // render the array element currently clicked
       componentDidMount(){
-        var uid = "60269f1055f0113dd06a4b08"
+        
         var user_id = localStorage.getItem('_id')
-        console.log(user_id);
 
         var fetch_url=ENDPOINT+'/finduserbyid/'+this.state.id;
         console.log(fetch_url);
@@ -95,10 +117,14 @@ class ProjectBar extends Component{
           }
           var active=0;
 
+          let first_project_id = data.projects[0]._id
+          console.log(first_project_id)
+          // this.updateBackground(first_project_id);
           this.setState({
             "data":arr,
             "projects":data.projects,
-            "active_project":data.projects[0].directories
+            "active_project":data.projects[0].directories,
+            "active_project_details":data.projects[0]
           })
         })
           
@@ -116,7 +142,7 @@ class ProjectBar extends Component{
               <button className="logout-button" onClick={this.props.logout}>Logout</button>
             </div>
           </div>  
-          <DirectoryBar directories={this.state.active_project} /> 
+          <DirectoryBar directories={this.state.active_project} project_details={this.state.active_project_details}/> 
         </div>
   
       )

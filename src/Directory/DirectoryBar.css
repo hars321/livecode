@@ -40,3 +40,10 @@
 .active-subdirectory{
     background-color: rgba(203, 196, 196, 0.51);
 }
+
+.Project-Details{
+    padding: 5px;
+}
+.Project-Id{
+    font-size: small;
+}

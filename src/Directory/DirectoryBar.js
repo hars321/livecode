@@ -32,15 +32,25 @@ class DirectoryBar extends Component{
           directories:"",
           arr:"",
           subdirectory_data:"",
-          prevSubdirectory:""
+          project_name:"",
+          project_id:"",
+          project_description:""
+
         }
       }
-      
+      updateProjectDetails=(project_details)=>{
+        this.setState({
+          project_name:project_details.name,
+          project_id:project_details._id,
+          project_description:project_details.description
+        })
+      }
       //gets triggered on project change
       componentDidUpdate(prevProps, prevState, snapshot) {
 
         if(this.props != prevProps){
-          // console.log("directorybar compupate",this.props)
+          console.log("directorybar",this.props.project_details)
+          this.updateProjectDetails(this.props.project_details)
         var directories = this.props.directories ;
         let count=directories.length
           
@@ -110,7 +120,16 @@ class DirectoryBar extends Component{
           <div className="Directory">
             <div className="DirectoryBar-User">
 
-                  {this.state.user.name}
+                {/* <div className="Project-Name Project-Details">
+                  {this.state.project_name}
+                </div> */}
+                <div className="Project-Description Project-Details">
+                  {this.state.project_description}
+                </div>
+                <div className="Project-Id Project-Details">
+                  ({this.state.project_id})
+                </div>
+              
 
             </div>      
 
