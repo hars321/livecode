@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Signup from './Signup';
+import Signup from './Signup/Signup';
 import './Register.css';
-import Login from './Login';
+import Login from './Login/Login';
 
 
 

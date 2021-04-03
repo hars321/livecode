@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import {ENDPOINT} from '../serverEndpoint';
+import {ENDPOINT} from '../../serverEndpoint';
+
 
 // Parent is Register
     // props received:
         // setUserId(user_id)
-class Signup extends Component {
+        
+class Login extends Component {
 
     fetch_request=(data)=>{
-        var post_url = ENDPOINT + "/signup";
+        var post_url = ENDPOINT + "/login";
         
         fetch(post_url, {
             method: 'POST', 
@@ -45,32 +47,25 @@ class Signup extends Component {
     }
 
     handleSignupClick=()=>{
-        //change the active page
-
-        var name = this.refs.name.value;
+        // switch to signup page
+        console.log("signup click")
+        this.props.changePage();
+    }
+    handleLoginClick=()=>{
+        
         var email = this.refs.email.value;
         var password = this.refs.password.value;
 
         var data = {
-            "name":name,
             "email":email,
             "password":password
         }
 
         this.fetch_request(data);
-        
-        
-    }
-    handleLoginClick=()=>{
-        console.log("Login clicked");
-        this.props.changePage();
     }
     render() {
         return (
             <div className="Form-Parent">
-                <div className="Name-div Input-div">
-                    <input type="text" className="name-field Input-field" placeholder="Name" ref="name"></input>
-                </div>
                 <div className="Email-div Input-div">
                     <input type="email" className="email-field Input-field" placeholder="Email" ref="email"></input>
                 </div>
@@ -79,14 +74,13 @@ class Signup extends Component {
                 </div>
 
                 <div className="Buttons-Div Input-div">
-                    <input type="button"className="Input-field Register-Buttons inactive-button" value="Login" onClick={this.handleLoginClick}></input>
-                    <input type="button"className="Input-field Register-Buttons" value="Signup" onClick={this.handleSignupClick}></input>
+                    <input type="button"className="Input-field Register-Buttons inactive-button" value="Signup" onClick={this.handleSignupClick}></input>
+                    <input type="button"className="Input-field Register-Buttons" value="Login" onClick={this.handleLoginClick}></input>
                 </div>
                 
             </div>
-            
         );
     }
 }
 
-export default Signup;
+export default Login;
