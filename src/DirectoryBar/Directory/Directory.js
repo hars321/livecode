@@ -1,9 +1,7 @@
 import { Component } from 'react';
-// import Directory from './Directory'
 import './Directory.css';
-import Monaco from '../Monaco/index'
-import url, { modifyUrl } from '../url'
-import SubDirectory from './SubDirectory'
+import Monaco from '../../Monaco/index'
+import SubDirectory from './Subdirectory/SubDirectory'
 
 
 // Parent Component is DirectoryBar

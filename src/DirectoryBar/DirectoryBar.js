@@ -1,6 +1,6 @@
 
 import { Component } from 'react';
-import Directory from './Directory'
+import Directory from './Directory/Directory'
 import './DirectoryBar.css';
 import Monaco from '../Monaco/index';
 

@@ -1,6 +1,6 @@
 import  { Component } from 'react';
 import './SubDirectory.css';
-import { ENDPOINT } from '../serverEndpoint';
+import { ENDPOINT } from '../../../serverEndpoint';
 
 
 

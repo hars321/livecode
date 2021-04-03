@@ -2,7 +2,7 @@
 import { Component } from 'react';
 import Element from './Element'
 import './ProjectBar.css';
-import DirectoryBar from '../Directory/DirectoryBar.js'
+import DirectoryBar from '../DirectoryBar/DirectoryBar.js'
 import { ENDPOINT } from '../serverEndpoint';
 
 
