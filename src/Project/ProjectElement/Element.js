@@ -2,9 +2,8 @@
 import { Component } from 'react';
 
 import './Element.css';
-import ProjectBar from './ProjectBar.js';
+import ProjectBar from '../ProjectBar';
 import { useHistory } from "react-router-dom";
-import { modifyUrl } from '../url';
 
 // Parent Component is ProjectBar
 
@@ -43,11 +42,6 @@ class Element extends Component{
     }
     
     componentDidMount(){
-      //get base url of current website
-      var base_url=window.location.origin;
-      // console.log(this.props.id)
-      // console.log(this.props.name)
-      // console.log(this.props.data)
       //update the state
       this.setState({
         key:this.props.index,

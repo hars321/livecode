@@ -1,6 +1,6 @@
 
 import { Component } from 'react';
-import Element from './Element'
+import Element from './ProjectElement/Element'
 import './ProjectBar.css';
 import DirectoryBar from '../DirectoryBar/DirectoryBar.js'
 import { ENDPOINT } from '../serverEndpoint';
